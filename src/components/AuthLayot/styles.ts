@@ -18,7 +18,7 @@ export const Background = createGlobalStyle`
             position: absolute;
             top: 0;
             background-image: url(${figure2});
-            background-size: 55%;
+            background-size: contain;
             background-repeat: no-repeat;
             background-position-x: left;
         }
@@ -43,7 +43,7 @@ export const AuthDraw = styled.div`
     position: absolute;
     top: 0;
     background-image: url(${authLogo});
-    background-size: 55%;
+    background-size: contain;
     background-repeat: no-repeat;
     background-position-x: left;
   }
@@ -55,7 +55,7 @@ export const AuthDraw = styled.div`
     position: absolute;
     top: 0;
     background-image: url(${figure1});
-    background-size: 65%;
+    background-size: contain;
     background-repeat: no-repeat;
     background-position-x: left;
   }
@@ -66,6 +66,9 @@ export const LogoTitle = styled.div`
   font-size: 146px;
   color: #ffffff;
   user-select: none;
+  @media (max-width: 640px) {
+    display: none;
+  }
 `;
 
 export const ChildrenContainer = styled.div`
