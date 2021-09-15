@@ -1,14 +1,27 @@
 import React from "react";
-import { LoginBox, LoginTitle, FieldBox, IconBox, FormButtons } from "./styles";
-import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
-import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import {
+  LoginBox,
+  LoginTitle,
+  FieldBox,
+  IconBox,
+  FormButtons,
+  MessageField,
+} from "./styles";
 import { Field, Form } from "react-final-form";
-import AuthField from "../AuthField/AuthField";
-import { AuthMain, AuthSecond, ForgotButton } from '../../styles/buttons';
-import { validate } from '../../validate/validateLogin';
+
+import { AuthMain, AuthSecond, ForgotButton } from "../../styles/buttons";
+import { validateLogin } from "../../validate/validateAuth";
+import { StyledLink } from "../../styles/utils";
+import { fields } from "./fields";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../../redux/actions/auth";
+import { IUserLogin } from "../../redux/types/auth";
 
 export const LoginForm: React.FC = () => {
-  const onSubmit = (values: object) => {
+  const dispatch = useDispatch();
+  const message = useSelector(({ auth }: any) => auth.message) || "";
+  const onSubmit = (values: IUserLogin) => {
+    dispatch(loginUser(values));
     console.log(values);
   };
   return (
@@ -17,25 +30,30 @@ export const LoginForm: React.FC = () => {
 
       <Form
         onSubmit={onSubmit}
-        validate={validate}
+        validate={validateLogin}
         render={({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
-            <FieldBox>
-              <IconBox>
-                <AccountCircleOutlinedIcon fontSize="large" />
-              </IconBox>
-              <Field name="username" label="Username" component={AuthField} />
-            </FieldBox>
-            <FieldBox>
-              <IconBox>
-                <VpnKeyIcon fontSize="large" />
-              </IconBox>
-              <Field name="password" label="Password" component={AuthField} />
-            </FieldBox>
+            {fields.map((field) => (
+              <FieldBox>
+                <IconBox>{<field.icon fontSize="large" />}</IconBox>
+                <Field
+                  name={field.name}
+                  label={field.label}
+                  component={field.component}
+                  type={field.type}
+                />
+              </FieldBox>
+            ))}
             <FormButtons>
-                <AuthMain type="submit">Login</AuthMain>
-                <ForgotButton type="button">Forgot password?</ForgotButton>
-                <AuthSecond type="button">Create an account</AuthSecond>
+              <MessageField>{message}</MessageField>
+              <AuthMain type="submit">Login</AuthMain>
+              <ForgotButton type="button">
+                <StyledLink to="/login/forgot">Forgot password?</StyledLink>
+              </ForgotButton>
+
+              <AuthSecond type="button">
+                <StyledLink to="/register">Create an account </StyledLink>
+              </AuthSecond>
             </FormButtons>
           </form>
         )}

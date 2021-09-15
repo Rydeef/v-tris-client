@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const ErrorMessage = styled.span`
@@ -8,4 +9,11 @@ export const ErrorMessage = styled.span`
   @media (max-width: 640px) {
     font-size: 12px;
   }
+`;
+
+export const StyledLink = styled(Link)`
+  width: 100%;
+  height: 100%;
+  color: currentColor;
+  text-decoration: none;
 `;

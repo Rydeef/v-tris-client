@@ -1,4 +1,3 @@
-
 import styled from "styled-components";
 
 export const LoginBox = styled.div`
@@ -9,19 +8,22 @@ export const LoginBox = styled.div`
   align-items: center;
   display: block;
   position: relative;
+  transition-duration: .3s;
   @media (max-width: 640px) {
     width: 256px;
   }
 `;
 export const LoginTitle = styled.div`
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   padding-top: 32px;
   padding-bottom: 64px;
+  padding-left: 8px;
+  padding-right: 8px;
   font-weight: 600;
   font-size: 32px;
+  text-align: center;
   @media (max-width: 640px) {
     padding-bottom: 54px;
   } ;
@@ -60,7 +62,7 @@ export const FormButtons = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  & button {
+  & > button {
     &:not(:last-child) {
       margin-top: 4px;
       margin-bottom: 4px;
@@ -75,6 +77,36 @@ export const FormButtons = styled.div`
     padding-right: 12px;
   }
 `;
+export const HaveAccount = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 46px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-weight: 400;
+  color: #a0a0a0;
+  font-size: 20px;
+  & > a {
+    width: initial;
+    height: initial;
+  }
+  @media (max-width: 640px) {
+    font-size: 16px;
+  }
+`;
+
+export const LogInSpan = styled.span`
+  padding-left: 4px;
+  color: #7d069b;
+  transition-duration: 0.3s;
+  &:hover {
+    color: #a0a0a0;
+    transition-duration: 0.3s;
+  }
+`;
+
 export const MessageField = styled.div`
   font-size: 18px;
   color: red;
