@@ -17,3 +17,8 @@ export const StyledLink = styled(Link)`
   color: currentColor;
   text-decoration: none;
 `;
+export const ContentContainer = styled.div`
+  height: 100%;
+  padding-left: 40px;
+  padding-right: 40px;
+`

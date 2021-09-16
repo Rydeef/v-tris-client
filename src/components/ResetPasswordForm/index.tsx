@@ -7,30 +7,29 @@ import {
   FormButtons,
   MessageField,
 } from "./styles";
-import { Field, Form } from "react-final-form";
-
-import { AuthMain, AuthSecond, ForgotButton } from "../../styles/buttons";
-import { validateLogin } from "../../validate/validateAuth";
-import { StyledLink } from "../../styles/utils";
-import { fields } from "./fields";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../../redux/actions/auth";
-import { IUserLogin } from "../../redux/types/auth";
+import { Field, Form } from "react-final-form";
+import { AuthMain, AuthSecond } from "../../styles/buttons";
+import { fields } from "./fields";
+import { resetPassword } from "../../redux/actions/auth";
+import { validatePasswords } from "../../validate/validateAuth";
+import { StyledLink } from "../../styles/utils";
 
-export const LoginForm: React.FC = () => {
+export const ResetPasswordForm: React.FC = () => {
   const dispatch = useDispatch();
   const message = useSelector(({ auth }: any) => auth.message) || "";
-  const onSubmit = (values: IUserLogin) => {
-    dispatch(loginUser(values));
+  const hash = window.location.pathname.split("/");
+
+  const onSubmit = (values: any) => {
+    dispatch(resetPassword({ ...values, token: hash[hash.length - 1] }));
     console.log(values);
   };
   return (
     <LoginBox>
-      <LoginTitle>Login</LoginTitle>
-
+      <LoginTitle>Choose a new password</LoginTitle>
       <Form
         onSubmit={onSubmit}
-        validate={validateLogin}
+        validate={validatePasswords}
         render={({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
             {fields.map((field) => (
@@ -44,16 +43,15 @@ export const LoginForm: React.FC = () => {
                 />
               </FieldBox>
             ))}
+
             <FormButtons>
               <MessageField>{message}</MessageField>
-              <AuthMain type="submit">Login</AuthMain>
-              <ForgotButton type="button">
-                <StyledLink to="/login/reset">Forgot password?</StyledLink>
-              </ForgotButton>
-
-              <AuthSecond type="button">
-                <StyledLink to="/register">Create an account </StyledLink>
-              </AuthSecond>
+              <AuthSecond type="submit">Set password</AuthSecond>
+              {message === "Password changed successfully" && (
+                <AuthMain type="button">
+                  <StyledLink to="/login">Log in</StyledLink>
+                </AuthMain>
+              )}
             </FormButtons>
           </form>
         )}
@@ -62,4 +60,4 @@ export const LoginForm: React.FC = () => {
   );
 };
 
-export default LoginForm;
+export default ResetPasswordForm;

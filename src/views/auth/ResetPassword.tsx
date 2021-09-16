@@ -1,23 +1,24 @@
 import React, { useEffect } from "react";
-import AuthLayout from "../../components/AuthLayot";
-import RegisterForm from "../../components/RegisterForm";
 import { useDispatch } from "react-redux";
 import { clearMessage } from "../../redux/actions/auth";
+import AuthLayout from "../../components/AuthLayot";
+import ResetForm from "../../components/ResetForm";
+
+export const ResetPassword: React.FC = () => {
 
 
-export const Register: React.FC = () => {
 
   const dispatch = useDispatch();
   
   useEffect(() => {
     dispatch(clearMessage());
   }, [dispatch]);
-
+  
   return (
     <AuthLayout>
-      <RegisterForm />
+      <ResetForm/>
     </AuthLayout>
   );
 };
 
-export default Register;
+export default ResetPassword;

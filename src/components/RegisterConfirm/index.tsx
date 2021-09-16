@@ -14,7 +14,7 @@ export const InfoPage: React.FC = () => {
   const hash = window.location.pathname.split("/");
   useEffect(() => {
     dispatch(confirmUser(hash[hash.length - 1]));
-  }, []);
+  }, [dispatch, hash]);
 
   return (
     <AuthLayout>

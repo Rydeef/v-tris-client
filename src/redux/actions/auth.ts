@@ -1,4 +1,4 @@
-import { IUser, AuthActionTypes, IUserLogin } from '../types/auth';
+import { IUser, AuthActionTypes, IUserLogin, IEmail, IResetPassword } from '../types/auth';
 
 export const registerUser = (payload: IUser) => ({
   type: AuthActionTypes.REGISTER_USER,
@@ -19,3 +19,17 @@ export const loginUser = (payload: IUserLogin) => ({
   type: AuthActionTypes.LOGIN_USER,
   payload,
 });
+export const sendResetLetter = (payload: IEmail) => ({
+  type: AuthActionTypes.SEND_RESET_LETTER,
+  payload,
+});
+export const resetPassword = (payload: IResetPassword) => ({
+  type: AuthActionTypes.RESET_PASSWORD,
+  payload,
+});
+export const clearMessage = () => ({
+  type: AuthActionTypes.CLEAR_MESSAGE,
+
+});
+
+

@@ -1,12 +1,15 @@
 import { call, takeLatest, put } from "redux-saga/effects";
 import {
-  AuthActionTypes,
   IRegisterAction,
   IConfirmUserAction,
+  ILoginUserAction,
+  ISendResetLetterAction,
+  AuthActionTypes,
 } from "../types/auth";
 import { api } from "../../services/api";
-import { setMessage } from "../actions/auth";
-import { ILoginUserAction } from "../types/auth";
+import { setMessage } from '../actions/auth';
+import { IResetPasswordAction } from '../types/auth';
+
 
 function* registerUser(data: IRegisterAction): Generator {
   try {
@@ -47,8 +50,40 @@ function* loginUser(data: ILoginUserAction): Generator {
     const response: any = yield call(api.post, "/auth/login", data.payload);
     if (response.status === 200) {
       window.localStorage.setItem("vTrisAccessToken", response.data.token);
-      window.location.assign('/')
+      window.location.assign("/");
     } else yield put(setMessage(response.data.message));
+  } catch (err: any) {
+    if (err.response.status === 409) {
+      yield put(setMessage(err.response.data.message));
+    }
+    if (err.response.status === 400) {
+      yield put(setMessage(err.response.data.message));
+    }
+    return err;
+  }
+}
+
+function* sendResetLtter(data: ISendResetLetterAction): Generator {
+  try {
+    const response: any = yield call(api.post, "/auth/reset", data.payload);
+
+    yield put(setMessage(response.data.message));
+  } catch (err: any) {
+    if (err.response.status === 409) {
+      yield put(setMessage(err.response.data.message));
+    }
+    if (err.response.status === 400) {
+      yield put(setMessage(err.response.data.message));
+    }
+    return err;
+  }
+}
+
+function* resetPassword(data: IResetPasswordAction): Generator {
+  try {
+    const response: any = yield call(api.post, "/auth/reset/password", data.payload);
+
+    yield put(setMessage(response.data.message));
   } catch (err: any) {
     if (err.response.status === 409) {
       yield put(setMessage(err.response.data.message));
@@ -64,7 +99,8 @@ function* auth(): Generator {
   yield takeLatest(AuthActionTypes.REGISTER_USER, registerUser);
   yield takeLatest(AuthActionTypes.CONFIRM_USER, confirmUser);
   yield takeLatest(AuthActionTypes.LOGIN_USER, loginUser);
-  
+  yield takeLatest(AuthActionTypes.SEND_RESET_LETTER, sendResetLtter);
+  yield takeLatest(AuthActionTypes.RESET_PASSWORD, resetPassword)
 }
 
 export default auth;

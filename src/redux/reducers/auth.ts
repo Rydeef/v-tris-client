@@ -16,6 +16,11 @@ const auth = (state = initialState, action: AuthAction): stateTasks => {
         ...state,
         message: "",
       };
+    case AuthActionTypes.CLEAR_MESSAGE:
+      return {
+        ...state,
+        message: "",
+      };
     default:
       return state;
   }
