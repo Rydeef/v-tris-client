@@ -3,4 +3,5 @@ export const colors = {
   accentColor: "#7D069B",
   textMain: "#0B172A",
   textSecond: "#7D069B",
+  secondColor: "#F1F1F1",
 };

@@ -23,7 +23,7 @@ export const LayoutContainer = styled.div`
 `;
 export const Header = styled.header`
   width: 100%;
-  height: 80px;
+  height: 10vh;
   background-color: ${colors.headerColor};
 `;
 export const BurgerMenu = styled.div`
