@@ -1,7 +1,7 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
 import { StyledField, FieldLabel } from "./styles";
-import { ErrorMessage } from '../../styles/utils';
+import { ErrorMessage } from "../../styles/utils";
 
 interface AuthFieldProps {
   [x: string]: any;

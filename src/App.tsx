@@ -7,6 +7,7 @@ import Register from "./views/auth/Register";
 import ResetPassword from "./views/auth/ResetPassword";
 import ResetPasswordConfirm from "./views/auth/ResetPasswordConfirm";
 import Homepage from "./views/homepage/Homepage";
+import Workspace from './views/workspaces/Workspace';
 
 export const App: React.FC = () => {
   return (
@@ -29,6 +30,9 @@ export const App: React.FC = () => {
         </Route>
         <ProtectedRoute exact path="/">
           <Homepage />
+        </ProtectedRoute>
+        <ProtectedRoute path="/workspace/">
+          <Workspace />
         </ProtectedRoute>
       </Switch>
     </Router>

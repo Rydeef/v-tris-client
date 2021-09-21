@@ -21,4 +21,5 @@ export const ContentContainer = styled.div`
   height: 100%;
   padding-left: 40px;
   padding-right: 40px;
+  color: ${({theme})=> theme.text.primary};
 `

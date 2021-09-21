@@ -18,9 +18,9 @@ export const StyledField = styled.div`
   @media (max-width: 640px) {
     width: 168px;
     height: 72px;
-    .MuiInput-root{
+    .MuiInput-root {
       font-size: 14px;
-    };
+    }
   }
 `;
 

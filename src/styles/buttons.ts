@@ -24,6 +24,27 @@ export const AuthMain = styled.button`
     font-size: 16px;
   }
 `;
+
+export const FilterButton = styled.button`
+  width: 98px;
+  height: 40px;
+  background-color: #7d069b;
+  border: none;
+  cursor: pointer;
+  font-weight: 400;
+  color: #ffffff;
+  font-size: 20px;
+  transition-duration: 0.3s;
+
+  &:active {
+    background-color: #4d0061;
+    color: #fff;
+    transition-duration: 0.3s;
+  }
+  @media (max-width: 640px) {
+    font-size: 16px;
+  }
+`;
 export const AuthSecond = styled.button`
   width: 100%;
   height: 46px;

@@ -10,16 +10,18 @@ export const BodyHeight = createGlobalStyle`
         height: 100vh;
         max-height: 100vh;
         overflow: hidden;
+        background-color: ${({ theme }) => theme.body.primary}
     }
     #root{
         height: 100%;
         width: 100%;
+       
     }
+   
 `;
 
 export const LayoutContainer = styled.div`
   width: 100%;
-  
 `;
 export const Header = styled.header`
   width: 100%;
@@ -104,5 +106,5 @@ export const LogoTitle = styled.span`
 
 export const ChildrenContainer = styled.div`
   max-height: 85vh;
-  overflow-y: auto;
+  /* overflow-y: auto; */
 `;
