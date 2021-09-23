@@ -73,9 +73,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
           </ContentContainer>
         </Header>
 
-        <ContentContainer>
           <ChildrenContainer>{children}</ChildrenContainer>
-        </ContentContainer>
       </LayoutContainer>
     </ThemeProvider>
   );

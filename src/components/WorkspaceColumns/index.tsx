@@ -1,5 +1,4 @@
-import React from "react";
-import { ContentContainer } from "../../styles/utils";
+import React, { useState } from "react";
 import {
   ColumnsWrapper,
   Column,
@@ -15,310 +14,230 @@ import {
   ColumnItemInfo,
 } from "./styles";
 import dotsImg from "../../assets/svg/dots.svg";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+
+type colorType = "todo" | "review" | "complete" | "inprogress";
+
+interface ITicketFields {
+  id: string;
+  text: string;
+}
+
+interface ITicket {
+  id: string;
+  title: string;
+  color: colorType;
+  fields: ITicketFields[];
+}
 
 export const WorkspaceColumns: React.FC = () => {
+  const [workspaceTickets, setWorkspaceTickets] = useState<ITicket[]>([
+    {
+      title: "To do",
+      color: "todo",
+      id: "4546546246",
+      fields: [
+        {
+          id: "56758699",
+          text: "jkgkk",
+        },
+        {
+          id: "768621",
+          text: "rtet",
+        },
+        {
+          id: "34242645",
+          text: "bvvnbv",
+        },
+        {
+          id: "4564768",
+          text: "Data",
+        },
+      ],
+    },
+    {
+      title: "In progress",
+      color: "inprogress",
+      id: "lkjligh",
+      fields: [
+        {
+          id: "kjhkhui",
+          text: "Data",
+        },
+        {
+          id: "kjhoiyit",
+          text: "Data",
+        },
+        {
+          id: "jkuyuvm",
+          text: "Data",
+        },
+        {
+          id: "jhgjtyrybv",
+          text: "Data",
+        },
+      ],
+    },
+    {
+      title: "Review",
+      color: "review",
+      id: "kbnvcfjhftyu",
+      fields: [
+        {
+          id: "jhgjghvj",
+          text: "Data",
+        },
+        {
+          id: "jfhg65yhhdy6",
+          text: "Data",
+        },
+        {
+          id: "74jchd56",
+          text: "Data",
+        },
+        {
+          id: "7mbnkg",
+          text: "Data",
+        },
+      ],
+    },
+    {
+      title: "Complete",
+      color: "complete",
+      id: "bkjhkkghhj",
+      fields: [
+        {
+          id: "jgfjhvgf",
+          text: "Data",
+        },
+        {
+          id: "khjlfchgf",
+          text: "Data",
+        },
+        {
+          id: "hgfjyttery",
+          text: "Data",
+        },
+        {
+          id: "jhgkhgk",
+          text: "Data",
+        },
+      ],
+    },
+    {
+      title: "Complete",
+      color: "complete",
+      id: "jykuyu",
+      fields: [
+        {
+          id: "kkhk",
+          text: "Data",
+        },
+        {
+          id: "kjhkhkuyu",
+          text: "Data",
+        },
+        {
+          id: "vmmnvmvm",
+          text: "Data",
+        },
+        {
+          id: "uytutdtyrey",
+          text: "Data",
+        },
+      ],
+    },
+  ]);
+
+  const onDragEnd = (result: any) => {
+    const { destination, draggableId, source } = result;
+    if (!destination) {
+      return;
+    }
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+
+    let sourceIndex: number;
+    let destinationIndex: number;
+    workspaceTickets.forEach((column, index) => {
+      if (column.id === source.droppableId) {
+        sourceIndex = index;
+      }
+      if (column.id === destination.droppableId) {
+        destinationIndex = index;
+      }
+    });
+
+    let draggableItem: number;
+
+    workspaceTickets[sourceIndex!].fields.forEach((field, index) => {
+      if (field.id === draggableId) {
+        draggableItem = index;
+      }
+    });
+    const newTickets = workspaceTickets.slice();
+    if (sourceIndex! !== destinationIndex!) {
+      newTickets[destinationIndex!].fields.splice(
+        destination.index,
+        0,
+        workspaceTickets[sourceIndex!].fields[draggableItem!]
+      );
+      newTickets[sourceIndex!].fields.splice(draggableItem!, 1);
+    }
+
+    setWorkspaceTickets(newTickets);
+  };
   return (
-    <ColumnsWrapper>
-      <Column>
-        <ColumnTitle outline="todo">
-          <ColumnTitleContent>
-            <ColumnTitleText>To do</ColumnTitleText>
-            <ColumnTitleCount>4</ColumnTitleCount>
-          </ColumnTitleContent>
-          <ColumnTitleEdit src={dotsImg} alt="" />
-        </ColumnTitle>
-        <ColumnItem>
-          <ColumnItemTitle>Data model</ColumnItemTitle>
-          <ColumnItemInfo>
-            <ColumnTitleEdit src={dotsImg} alt="" />
-            <ColumnItemAvatar />
-          </ColumnItemInfo>
-        </ColumnItem>
-        <ColumnItem>
-          <ColumnItemTitle>Data model</ColumnItemTitle>
-          <ColumnItemInfo>
-            <ColumnTitleEdit src={dotsImg} alt="" />
-            <ColumnItemAvatar />
-          </ColumnItemInfo>
-        </ColumnItem>
-        <ColumnItem>
-          <ColumnItemTitle>Data model</ColumnItemTitle>
-          <ColumnItemInfo>
-            <ColumnTitleEdit src={dotsImg} alt="" />
-            <ColumnItemAvatar />
-          </ColumnItemInfo>
-        </ColumnItem>
-        <NewTask>+New Task</NewTask>
-      </Column>
-      <Column>
-        <ColumnTitle outline="inprogress">
-          <ColumnTitleContent>
-            <ColumnTitleText>In progress</ColumnTitleText>
-            <ColumnTitleCount>4</ColumnTitleCount>
-          </ColumnTitleContent>
-          <ColumnTitleEdit src={dotsImg} alt="" />
-        </ColumnTitle>
-        <ColumnItem>
-          <ColumnItemTitle>Data model</ColumnItemTitle>
-          <ColumnItemInfo>
-            <ColumnTitleEdit src={dotsImg} alt="" />
-            <ColumnItemAvatar />
-          </ColumnItemInfo>
-        </ColumnItem>
-        <ColumnItem>
-          <ColumnItemTitle>Data model</ColumnItemTitle>
-          <ColumnItemInfo>
-            <ColumnTitleEdit src={dotsImg} alt="" />
-            <ColumnItemAvatar />
-          </ColumnItemInfo>
-        </ColumnItem>
-        <NewTask>+New Task</NewTask>
-      </Column>
-      <Column>
-        <ColumnTitle outline="review">
-          <ColumnTitleContent>
-            <ColumnTitleText>Review</ColumnTitleText>
-            <ColumnTitleCount>4</ColumnTitleCount>
-          </ColumnTitleContent>
-          <ColumnTitleEdit src={dotsImg} alt="" />
-        </ColumnTitle>
-        <ColumnItem>
-          <ColumnItemTitle>Data model</ColumnItemTitle>
-          <ColumnItemInfo>
-            <ColumnTitleEdit src={dotsImg} alt="" />
-            <ColumnItemAvatar />
-          </ColumnItemInfo>
-        </ColumnItem>
-        <NewTask>+New Task</NewTask>
-      </Column>
-      <Column>
-        <ColumnTitle outline="complete">
-          <ColumnTitleContent>
-            <ColumnTitleText>Complete</ColumnTitleText>
-            <ColumnTitleCount>4</ColumnTitleCount>
-          </ColumnTitleContent>
-          <ColumnTitleEdit src={dotsImg} alt="" />
-        </ColumnTitle>
-        <ColumnItem>
-          <ColumnItemTitle>Data model</ColumnItemTitle>
-          <ColumnItemInfo>
-            <ColumnTitleEdit src={dotsImg} alt="" />
-            <ColumnItemAvatar />
-          </ColumnItemInfo>
-        </ColumnItem>
-        <ColumnItem>
-          <ColumnItemTitle>Data model</ColumnItemTitle>
-          <ColumnItemInfo>
-            <ColumnTitleEdit src={dotsImg} alt="" />
-            <ColumnItemAvatar />
-          </ColumnItemInfo>
-        </ColumnItem>
-        <ColumnItem>
-          <ColumnItemTitle>Data model</ColumnItemTitle>
-          <ColumnItemInfo>
-            <ColumnTitleEdit src={dotsImg} alt="" />
-            <ColumnItemAvatar />
-          </ColumnItemInfo>
-        </ColumnItem>
-        <ColumnItem>
-          <ColumnItemTitle>Data model</ColumnItemTitle>
-          <ColumnItemInfo>
-            <ColumnTitleEdit src={dotsImg} alt="" />
-            <ColumnItemAvatar />
-          </ColumnItemInfo>
-        </ColumnItem>
-        <NewTask>+New Task</NewTask>
-      </Column>{" "}
-      <Column>
-        <ColumnTitle outline="complete">
-          <ColumnTitleContent>
-            <ColumnTitleText>Complete</ColumnTitleText>
-            <ColumnTitleCount>4</ColumnTitleCount>
-          </ColumnTitleContent>
-          <ColumnTitleEdit src={dotsImg} alt="" />
-        </ColumnTitle>
-        <ColumnItem>
-          <ColumnItemTitle>Data model</ColumnItemTitle>
-          <ColumnItemInfo>
-            <ColumnTitleEdit src={dotsImg} alt="" />
-            <ColumnItemAvatar />
-          </ColumnItemInfo>
-        </ColumnItem>
-        <ColumnItem>
-          <ColumnItemTitle>Data model</ColumnItemTitle>
-          <ColumnItemInfo>
-            <ColumnTitleEdit src={dotsImg} alt="" />
-            <ColumnItemAvatar />
-          </ColumnItemInfo>
-        </ColumnItem>
-        <ColumnItem>
-          <ColumnItemTitle>Data model</ColumnItemTitle>
-          <ColumnItemInfo>
-            <ColumnTitleEdit src={dotsImg} alt="" />
-            <ColumnItemAvatar />
-          </ColumnItemInfo>
-        </ColumnItem>
-        <ColumnItem>
-          <ColumnItemTitle>Data model</ColumnItemTitle>
-          <ColumnItemInfo>
-            <ColumnTitleEdit src={dotsImg} alt="" />
-            <ColumnItemAvatar />
-          </ColumnItemInfo>
-        </ColumnItem>
-        <NewTask>+New Task</NewTask>
-      </Column>{" "}
-      <Column>
-        <ColumnTitle outline="complete">
-          <ColumnTitleContent>
-            <ColumnTitleText>Complete</ColumnTitleText>
-            <ColumnTitleCount>4</ColumnTitleCount>
-          </ColumnTitleContent>
-          <ColumnTitleEdit src={dotsImg} alt="" />
-        </ColumnTitle>
-        <ColumnItem>
-          <ColumnItemTitle>Data model</ColumnItemTitle>
-          <ColumnItemInfo>
-            <ColumnTitleEdit src={dotsImg} alt="" />
-            <ColumnItemAvatar />
-          </ColumnItemInfo>
-        </ColumnItem>
-        <ColumnItem>
-          <ColumnItemTitle>Data model</ColumnItemTitle>
-          <ColumnItemInfo>
-            <ColumnTitleEdit src={dotsImg} alt="" />
-            <ColumnItemAvatar />
-          </ColumnItemInfo>
-        </ColumnItem>
-        <ColumnItem>
-          <ColumnItemTitle>Data model</ColumnItemTitle>
-          <ColumnItemInfo>
-            <ColumnTitleEdit src={dotsImg} alt="" />
-            <ColumnItemAvatar />
-          </ColumnItemInfo>
-        </ColumnItem>
-        <ColumnItem>
-          <ColumnItemTitle>Data model</ColumnItemTitle>
-          <ColumnItemInfo>
-            <ColumnTitleEdit src={dotsImg} alt="" />
-            <ColumnItemAvatar />
-          </ColumnItemInfo>
-        </ColumnItem>
-        <NewTask>+New Task</NewTask>
-      </Column>{" "}
-      <Column>
-        <ColumnTitle outline="complete">
-          <ColumnTitleContent>
-            <ColumnTitleText>Complete</ColumnTitleText>
-            <ColumnTitleCount>4</ColumnTitleCount>
-          </ColumnTitleContent>
-          <ColumnTitleEdit src={dotsImg} alt="" />
-        </ColumnTitle>
-        <ColumnItem>
-          <ColumnItemTitle>Data model</ColumnItemTitle>
-          <ColumnItemInfo>
-            <ColumnTitleEdit src={dotsImg} alt="" />
-            <ColumnItemAvatar />
-          </ColumnItemInfo>
-        </ColumnItem>
-        <ColumnItem>
-          <ColumnItemTitle>Data model</ColumnItemTitle>
-          <ColumnItemInfo>
-            <ColumnTitleEdit src={dotsImg} alt="" />
-            <ColumnItemAvatar />
-          </ColumnItemInfo>
-        </ColumnItem>
-        <ColumnItem>
-          <ColumnItemTitle>Data model</ColumnItemTitle>
-          <ColumnItemInfo>
-            <ColumnTitleEdit src={dotsImg} alt="" />
-            <ColumnItemAvatar />
-          </ColumnItemInfo>
-        </ColumnItem>
-        <ColumnItem>
-          <ColumnItemTitle>Data model</ColumnItemTitle>
-          <ColumnItemInfo>
-            <ColumnTitleEdit src={dotsImg} alt="" />
-            <ColumnItemAvatar />
-          </ColumnItemInfo>
-        </ColumnItem>
-        <NewTask>+New Task</NewTask>
-      </Column>{" "}
-      <Column>
-        <ColumnTitle outline="complete">
-          <ColumnTitleContent>
-            <ColumnTitleText>Complete</ColumnTitleText>
-            <ColumnTitleCount>4</ColumnTitleCount>
-          </ColumnTitleContent>
-          <ColumnTitleEdit src={dotsImg} alt="" />
-        </ColumnTitle>
-        <ColumnItem>
-          <ColumnItemTitle>Data model</ColumnItemTitle>
-          <ColumnItemInfo>
-            <ColumnTitleEdit src={dotsImg} alt="" />
-            <ColumnItemAvatar />
-          </ColumnItemInfo>
-        </ColumnItem>
-        <ColumnItem>
-          <ColumnItemTitle>Data model</ColumnItemTitle>
-          <ColumnItemInfo>
-            <ColumnTitleEdit src={dotsImg} alt="" />
-            <ColumnItemAvatar />
-          </ColumnItemInfo>
-        </ColumnItem>
-        <ColumnItem>
-          <ColumnItemTitle>Data model</ColumnItemTitle>
-          <ColumnItemInfo>
-            <ColumnTitleEdit src={dotsImg} alt="" />
-            <ColumnItemAvatar />
-          </ColumnItemInfo>
-        </ColumnItem>
-        <ColumnItem>
-          <ColumnItemTitle>Data model</ColumnItemTitle>
-          <ColumnItemInfo>
-            <ColumnTitleEdit src={dotsImg} alt="" />
-            <ColumnItemAvatar />
-          </ColumnItemInfo>
-        </ColumnItem>
-        <NewTask>+New Task</NewTask>
-      </Column>{" "}
-      <Column>
-        <ColumnTitle outline="complete">
-          <ColumnTitleContent>
-            <ColumnTitleText>Complete</ColumnTitleText>
-            <ColumnTitleCount>4</ColumnTitleCount>
-          </ColumnTitleContent>
-          <ColumnTitleEdit src={dotsImg} alt="" />
-        </ColumnTitle>
-        <ColumnItem>
-          <ColumnItemTitle>Data model</ColumnItemTitle>
-          <ColumnItemInfo>
-            <ColumnTitleEdit src={dotsImg} alt="" />
-            <ColumnItemAvatar />
-          </ColumnItemInfo>
-        </ColumnItem>
-        <ColumnItem>
-          <ColumnItemTitle>Data model</ColumnItemTitle>
-          <ColumnItemInfo>
-            <ColumnTitleEdit src={dotsImg} alt="" />
-            <ColumnItemAvatar />
-          </ColumnItemInfo>
-        </ColumnItem>
-        <ColumnItem>
-          <ColumnItemTitle>Data model</ColumnItemTitle>
-          <ColumnItemInfo>
-            <ColumnTitleEdit src={dotsImg} alt="" />
-            <ColumnItemAvatar />
-          </ColumnItemInfo>
-        </ColumnItem>
-        <ColumnItem>
-          <ColumnItemTitle>Data model</ColumnItemTitle>
-          <ColumnItemInfo>
-            <ColumnTitleEdit src={dotsImg} alt="" />
-            <ColumnItemAvatar />
-          </ColumnItemInfo>
-        </ColumnItem>
-        <NewTask>+New Task</NewTask>
-      </Column>
+    <ColumnsWrapper
+      hideScrollbars={false}
+      vertical={false}
+      ignoreElements={ColumnItem}
+    >
+      <DragDropContext onDragEnd={onDragEnd}>
+        {workspaceTickets.map((column) => (
+          <Droppable droppableId={column.id} key={column.id} type="tickets">
+            {(provided) => (
+              <Column {...provided.droppableProps} ref={provided.innerRef}>
+                <ColumnTitle outline={column.color}>
+                  <ColumnTitleContent>
+                    <ColumnTitleText>{column.title}</ColumnTitleText>
+                    <ColumnTitleCount>{column.fields.length}</ColumnTitleCount>
+                  </ColumnTitleContent>
+                  <ColumnTitleEdit src={dotsImg} alt="" />
+                </ColumnTitle>
+                {column.fields.map((field, index) => (
+                  <Draggable
+                    draggableId={field.id}
+                    key={field.id}
+                    index={index}
+                  >
+                    {(provided) => (
+                      <ColumnItem
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        ref={provided.innerRef}
+                      >
+                        <ColumnItemTitle>{field.text}</ColumnItemTitle>
+                        <ColumnItemInfo>
+                          <ColumnTitleEdit onClick={()=>{console.log(123321);
+                          }} src={dotsImg} alt="" />
+                          <ColumnItemAvatar />
+                        </ColumnItemInfo>
+                      </ColumnItem>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+                <NewTask>+New Task</NewTask>
+              </Column>
+            )}
+          </Droppable>
+        ))}
+      </DragDropContext>
     </ColumnsWrapper>
   );
 };

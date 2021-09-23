@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import { colors } from "../../theme/colors";
+import ScrollContainer from "react-indiana-drag-scroll";
 
 type Outline = "todo" | "review" | "complete" | "inprogress";
 
@@ -6,25 +8,55 @@ interface ColumnTitleProps {
   outline: Outline;
 }
 
-export const ColumnsWrapper = styled.div`
+export const ColumnsWrapper = styled(ScrollContainer)`
   display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
+
   padding-bottom: 48px;
+
+  overflow-x: auto;
+
+  &::-webkit-scrollbar {
+    width: 2px;
+    height: 2px;
+    background-color: #d3d3d3;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: ${colors.accentColor};
+    border-radius: 9em;
+  }
+  /* @media (max-width: 980px) {
+    scroll-snap-type: x mandatory;
+  } */
 `;
 
 export const Column = styled.div`
   width: 400px;
   min-width: 400px;
-
+  /* max-height: 496px; */
   scroll-snap-align: center;
-  margin-left: 40px;
-  margin-right: 40px;
+  margin-left: 32px;
+  margin-right: 32px;
+  /* overflow-y: auto; */
+  /* overflow-x: hidden; */
+  padding-left: 8px;
+  padding-right: 8px;
+  &::-webkit-scrollbar {
+    width: 2px;
+    height: 2px;
+    background-color: #d3d3d3;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: ${colors.accentColor};
+    border-radius: 9em;
+  }
+
   &:first-child {
     margin-left: 0;
+    padding-left: 0;
   }
   &:last-child {
     margin-right: 0;
+    padding-left: 0;
   }
 `;
 export const ColumnTitle = styled.div<ColumnTitleProps>`
@@ -52,6 +84,7 @@ export const ColumnItem = styled.div`
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.2);
   padding-left: 16px;
   padding-right: 16px;
+  user-select: none;
   &:before {
     content: "";
 
@@ -80,6 +113,7 @@ export const NewTask = styled.button`
   border: none;
   font-size: 20px;
   cursor: pointer;
+
   &:hover {
     opacity: 1;
     transition-duration: 0.3s;

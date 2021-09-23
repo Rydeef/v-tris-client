@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+interface FilterButtonProps {
+  opened?: boolean
+}
+
 export const AuthMain = styled.button`
   width: 100%;
   height: 46px;
@@ -25,7 +29,7 @@ export const AuthMain = styled.button`
   }
 `;
 
-export const FilterButton = styled.button`
+export const FilterButton = styled.button<FilterButtonProps>`
   width: 98px;
   height: 40px;
   background-color: #7d069b;
@@ -35,7 +39,6 @@ export const FilterButton = styled.button`
   color: #ffffff;
   font-size: 20px;
   transition-duration: 0.3s;
-
   &:active {
     background-color: #4d0061;
     color: #fff;

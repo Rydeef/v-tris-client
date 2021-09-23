@@ -17,6 +17,7 @@ export const BodyHeight = createGlobalStyle`
         width: 100%;
        
     }
+    
    
 `;
 
@@ -106,5 +107,15 @@ export const LogoTitle = styled.span`
 
 export const ChildrenContainer = styled.div`
   max-height: 85vh;
-  /* overflow-y: auto; */
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 2px;
+    height: 2px;
+    background-color: #d3d3d3;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: ${colors.accentColor};
+    border-radius: 9em;
+  }
 `;
