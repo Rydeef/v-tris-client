@@ -150,4 +150,5 @@ export const ColumnItemInfo = styled.div`
     cursor: pointer;
     opacity: 0;
   }
+ 
 `;

@@ -17,6 +17,12 @@ export const BodyHeight = createGlobalStyle`
         width: 100%;
        
     }
+    .MuiPaper-elevation8{
+      box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.02) !important;
+    }
+    .MuiPaper-root{
+      background-color: transparent !important;
+    }
     
    
 `;

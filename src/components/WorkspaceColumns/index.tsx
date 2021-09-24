@@ -15,6 +15,9 @@ import {
 } from "./styles";
 import dotsImg from "../../assets/svg/dots.svg";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import { Popover } from "@material-ui/core";
+import TicketPopover from "../TicketPopover/index";
+import NewTicket from "../NewTicket";
 
 type colorType = "todo" | "review" | "complete" | "inprogress";
 
@@ -148,6 +151,18 @@ export const WorkspaceColumns: React.FC = () => {
       ],
     },
   ]);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [ticketCreation, setTicketCreation] = useState("");
+  const handleClick = (e: any) => {
+    setAnchorEl(e.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const handleTicketCreation = (id: string) => () => {
+    setTicketCreation(id);
+  };
 
   const onDragEnd = (result: any) => {
     const { destination, draggableId, source } = result;
@@ -191,11 +206,12 @@ export const WorkspaceColumns: React.FC = () => {
 
     setWorkspaceTickets(newTickets);
   };
+
   return (
     <ColumnsWrapper
       hideScrollbars={false}
       vertical={false}
-      ignoreElements={ColumnItem}
+      ignoreElements={Column}
     >
       <DragDropContext onDragEnd={onDragEnd}>
         {workspaceTickets.map((column) => (
@@ -207,7 +223,18 @@ export const WorkspaceColumns: React.FC = () => {
                     <ColumnTitleText>{column.title}</ColumnTitleText>
                     <ColumnTitleCount>{column.fields.length}</ColumnTitleCount>
                   </ColumnTitleContent>
-                  <ColumnTitleEdit src={dotsImg} alt="" />
+                  <ColumnTitleEdit src={dotsImg} alt="" onClick={handleClick} />
+                  <Popover
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                    anchorEl={anchorEl}
+                    anchorOrigin={{
+                      vertical: "bottom",
+                      horizontal: "left",
+                    }}
+                  >
+                    <TicketPopover id={column.id} />
+                  </Popover>
                 </ColumnTitle>
                 {column.fields.map((field, index) => (
                   <Draggable
@@ -223,8 +250,22 @@ export const WorkspaceColumns: React.FC = () => {
                       >
                         <ColumnItemTitle>{field.text}</ColumnItemTitle>
                         <ColumnItemInfo>
-                          <ColumnTitleEdit onClick={()=>{console.log(123321);
-                          }} src={dotsImg} alt="" />
+                          <ColumnTitleEdit
+                            onClick={handleClick}
+                            src={dotsImg}
+                            alt=""
+                          />
+                          <Popover
+                            open={Boolean(anchorEl)}
+                            onClose={handleClose}
+                            anchorEl={anchorEl}
+                            anchorOrigin={{
+                              vertical: "bottom",
+                              horizontal: "left",
+                            }}
+                          >
+                            <TicketPopover id={field.id} />
+                          </Popover>
                           <ColumnItemAvatar />
                         </ColumnItemInfo>
                       </ColumnItem>
@@ -232,7 +273,13 @@ export const WorkspaceColumns: React.FC = () => {
                   </Draggable>
                 ))}
                 {provided.placeholder}
-                <NewTask>+New Task</NewTask>
+                {ticketCreation === column.id ? (
+                  <NewTicket handleClose={handleTicketCreation} column={column.id} />
+                ) : (
+                  <NewTask onClick={handleTicketCreation(column.id)}>
+                    +New Task
+                  </NewTask>
+                )}
               </Column>
             )}
           </Droppable>
