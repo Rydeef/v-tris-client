@@ -6,6 +6,7 @@ export enum AuthActionTypes {
   SEND_RESET_LETTER = "SEND_RESET_LETTER",
   RESET_PASSWORD = "RESET_PASSWORD",
   CLEAR_MESSAGE = "CLEAR_MESSAGE",
+  SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN",
 }
 
 export interface IUser {
@@ -23,6 +24,7 @@ export interface IUserLogin {
 export interface IAuth {
   message?: string;
   token?: string;
+  accessToken?: string;
 }
 
 export interface IEmail {
@@ -34,6 +36,8 @@ export interface IResetPassword {
   confirmPassword: string;
   token: string;
 }
+
+
 
 export interface IRegisterAction {
   type: AuthActionTypes.REGISTER_USER;
@@ -66,6 +70,11 @@ export interface IClearMessageAction {
   type: AuthActionTypes.CLEAR_MESSAGE;
 }
 
+export interface ISetAccessTokenAction {
+  type: AuthActionTypes.SET_ACCESS_TOKEN;
+  payload: string;
+}
+
 export type AuthAction =
   | IRegisterAction
   | IConfirmUserAction
@@ -73,4 +82,5 @@ export type AuthAction =
   | ILoginUserAction
   | ISendResetLetterAction
   | IResetPasswordAction
-  | IClearMessageAction;
+  | IClearMessageAction
+  | ISetAccessTokenAction;

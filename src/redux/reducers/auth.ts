@@ -21,6 +21,13 @@ const auth = (state = initialState, action: AuthAction): stateTasks => {
         ...state,
         message: "",
       };
+
+    case AuthActionTypes.SET_ACCESS_TOKEN:
+      return {
+        ...state,
+        accessToken: action.payload,
+      };
+
     default:
       return state;
   }

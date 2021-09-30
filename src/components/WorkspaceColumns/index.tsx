@@ -19,17 +19,19 @@ import { Popover } from "@material-ui/core";
 import TicketPopover from "../TicketPopover/index";
 import NewTicket from "../NewTicket";
 
-type colorType = "todo" | "review" | "complete" | "inprogress";
+
+type priorityType = "high" | "medium" | "low";
 
 interface ITicketFields {
   id: string;
   text: string;
+  priority: priorityType;
 }
 
 interface ITicket {
   id: string;
   title: string;
-  color: colorType;
+  color?: string;
   fields: ITicketFields[];
 }
 
@@ -37,116 +39,136 @@ export const WorkspaceColumns: React.FC = () => {
   const [workspaceTickets, setWorkspaceTickets] = useState<ITicket[]>([
     {
       title: "To do",
-      color: "todo",
+
       id: "4546546246",
       fields: [
         {
           id: "56758699",
           text: "jkgkk",
+          priority: "high",
         },
         {
           id: "768621",
           text: "rtet",
+          priority: "high",
         },
         {
           id: "34242645",
           text: "bvvnbv",
+          priority: "low",
         },
         {
           id: "4564768",
           text: "Data",
+          priority: "low",
         },
       ],
     },
     {
       title: "In progress",
-      color: "inprogress",
+      color: "#003CFF",
       id: "lkjligh",
       fields: [
         {
           id: "kjhkhui",
           text: "Data",
+          priority: "low",
         },
         {
           id: "kjhoiyit",
           text: "Data",
+          priority: "low",
         },
         {
           id: "jkuyuvm",
           text: "Data",
+          priority: "high",
         },
         {
           id: "jhgjtyrybv",
           text: "Data",
+          priority: "high",
         },
       ],
     },
     {
       title: "Review",
-      color: "review",
+      color: "#FF9900",
       id: "kbnvcfjhftyu",
       fields: [
         {
           id: "jhgjghvj",
           text: "Data",
+          priority: "medium",
         },
         {
           id: "jfhg65yhhdy6",
           text: "Data",
+          priority: "medium",
         },
         {
           id: "74jchd56",
           text: "Data",
+          priority: "high",
         },
         {
           id: "7mbnkg",
           text: "Data",
+          priority: "high",
         },
       ],
     },
     {
       title: "Complete",
-      color: "complete",
+      color: "#00FF19",
       id: "bkjhkkghhj",
       fields: [
         {
           id: "jgfjhvgf",
           text: "Data",
+          priority: "high",
         },
         {
           id: "khjlfchgf",
           text: "Data",
+          priority: "high",
         },
         {
           id: "hgfjyttery",
           text: "Data",
+          priority: "medium",
         },
         {
           id: "jhgkhgk",
           text: "Data",
+          priority: "low",
         },
       ],
     },
     {
       title: "Complete",
-      color: "complete",
+      color: "#5e5f5e",
       id: "jykuyu",
       fields: [
         {
           id: "kkhk",
           text: "Data",
+          priority: "high",
         },
         {
           id: "kjhkhkuyu",
           text: "Data",
+          priority: "low",
         },
         {
           id: "vmmnvmvm",
           text: "Data",
+          priority: "high",
         },
         {
           id: "uytutdtyrey",
           text: "Data",
+          priority: "high",
         },
       ],
     },
@@ -247,6 +269,7 @@ export const WorkspaceColumns: React.FC = () => {
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                         ref={provided.innerRef}
+                        priority={field.priority}
                       >
                         <ColumnItemTitle>{field.text}</ColumnItemTitle>
                         <ColumnItemInfo>
@@ -274,7 +297,10 @@ export const WorkspaceColumns: React.FC = () => {
                 ))}
                 {provided.placeholder}
                 {ticketCreation === column.id ? (
-                  <NewTicket handleClose={handleTicketCreation} column={column.id} />
+                  <NewTicket
+                    handleClose={handleTicketCreation}
+                    column={column.id}
+                  />
                 ) : (
                   <NewTask onClick={handleTicketCreation(column.id)}>
                     +New Task

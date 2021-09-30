@@ -18,6 +18,8 @@ import {
 import { links } from "./fields";
 import { SwitchInput } from "./styles";
 import { ClickAwayListener } from "@material-ui/core";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 interface MenuProps {
   opened: boolean;
@@ -32,6 +34,10 @@ export const Menu: React.FC<MenuProps> = ({
   setTheme,
   theme,
 }) => {
+  const workspaces = useSelector(({ user }: any) => user.userInfo.workspaces);
+
+  const history = useHistory();
+
   const handleTheme = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.checked);
     setTheme(e.target.checked ? "dark" : "light");
@@ -58,7 +64,7 @@ export const Menu: React.FC<MenuProps> = ({
             {links.map((route) => (
               <MenuLink
                 key={route.path}
-                isActive={route.path === window.location.pathname}
+                isActive={route.path === history.location.pathname}
               >
                 <StyledLink to={route.path}>
                   <ContentContainer>
@@ -72,16 +78,34 @@ export const Menu: React.FC<MenuProps> = ({
               <ContentContainer>
                 <MenuTitle>Workspaces</MenuTitle>
               </ContentContainer>
-              <MenuLink>
-                <StyledLink to="/">
-                  <ContentContainer>
-                    <WorkspaceLink>
-                      <WorkspaceTitle>V-Tris Team</WorkspaceTitle>
-                      <WorkspaceTitle>32</WorkspaceTitle>
-                    </WorkspaceLink>
-                  </ContentContainer>
-                </StyledLink>
-              </MenuLink>
+              {workspaces.map((workspace: any) => (
+                <MenuLink
+                  key={workspace.id}
+                  isActive={
+                    `/workspace/${workspace.id}` === history.location.pathname
+                  }
+                >
+                  <StyledLink
+                    onClick={handleOutsideClick}
+                    to={`/workspace/${workspace.id}`}
+                    strict
+                  >
+                    <ContentContainer>
+                      <WorkspaceLink>
+                        <WorkspaceTitle>{workspace.name}</WorkspaceTitle>
+                        <WorkspaceTitle>
+                          {workspace.data.length
+                            ? workspace.data.reduce(
+                                (acc: Number, curr: any) =>
+                                  acc + curr.tickets?.length
+                              )
+                            : 0}
+                        </WorkspaceTitle>
+                      </WorkspaceLink>
+                    </ContentContainer>
+                  </StyledLink>
+                </MenuLink>
+              ))}
             </MenuContent>
           </MenuContent>
           <MenuFooter>

@@ -1,5 +1,9 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import React, { useEffect } from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+} from "react-router-dom";
 import InfoPage from "./components/RegisterConfirm";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import Login from "./views/auth/Login";
@@ -7,9 +11,18 @@ import Register from "./views/auth/Register";
 import ResetPassword from "./views/auth/ResetPassword";
 import ResetPasswordConfirm from "./views/auth/ResetPasswordConfirm";
 import Homepage from "./views/homepage/Homepage";
-import Workspace from './views/workspaces/Workspace';
+import Workspace from "./views/workspaces/Workspace";
+import { useDispatch } from "react-redux";
+import { getUserInfo } from "./redux/actions/user";
 
 export const App: React.FC = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUserInfo());
+
+  }, [dispatch]);
+
   return (
     <Router>
       <Switch>
@@ -31,7 +44,7 @@ export const App: React.FC = () => {
         <ProtectedRoute exact path="/">
           <Homepage />
         </ProtectedRoute>
-        <ProtectedRoute path="/workspace/">
+        <ProtectedRoute exact path="/workspace/:id">
           <Workspace />
         </ProtectedRoute>
       </Switch>

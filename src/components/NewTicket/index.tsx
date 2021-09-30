@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   NewTicketBox,
   TicketForm,
@@ -6,7 +6,6 @@ import {
   TicketIcon,
   TicketButtons,
   SubmitTicket,
-
 } from "./styles";
 import { Field, Form } from "react-final-form";
 import TicketField from "../TicketField";
@@ -34,14 +33,22 @@ export const NewTicket: React.FC<NewTicketProps> = ({
   const changeStartDate = (date: any) => {
     setStartDate(date);
   };
-
+  useEffect(() => {
+    console.log(startDate, endDate);
+  }, [startDate, endDate]);
+  const onSubmit = (values: any) => {
+    const reqObj = {
+      name: values.ticketName,
+      startDate,
+      endDate,
+    };
+    console.log(reqObj);
+  };
   return (
     <NewTicketBox>
       <TicketForm>
         <Form
-          onSubmit={(values) => {
-            console.log(values);
-          }}
+          onSubmit={onSubmit}
           render={({ handleSubmit }) => (
             <form onSubmit={handleSubmit}>
               <InputContainer>

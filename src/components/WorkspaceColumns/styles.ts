@@ -2,12 +2,15 @@ import styled from "styled-components";
 import { colors } from "../../theme/colors";
 import ScrollContainer from "react-indiana-drag-scroll";
 
-type Outline = "todo" | "review" | "complete" | "inprogress";
+type priorityType = "high" | "medium" | "low";
 
 interface ColumnTitleProps {
-  outline: Outline;
+  outline?: string;
 }
 
+interface ColumnItemProps {
+  priority: priorityType;
+}
 export const ColumnsWrapper = styled(ScrollContainer)`
   display: flex;
 
@@ -66,13 +69,14 @@ export const ColumnTitle = styled.div<ColumnTitleProps>`
   height: 48px;
   background-color: ${({ theme }) => theme.workspace.primary};
   margin-bottom: 28px;
-  border-bottom: 4px solid ${({ theme, outline }) => theme.workspace[outline]};
+  border-bottom: 4px solid
+    ${({ outline, theme }) => (outline ? outline : theme.workspace.primary)};
   box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
   padding-left: 16px;
   padding-right: 16px;
   text-transform: uppercase;
 `;
-export const ColumnItem = styled.div`
+export const ColumnItem = styled.div<ColumnItemProps>`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -95,7 +99,15 @@ export const ColumnItem = styled.div`
     height: 0;
     border-top: 12px solid transparent;
     border-bottom: 12px solid transparent;
-    border-left: 12px solid red;
+    border-left: 12px solid
+      ${({ priority }) =>
+        priority === "high"
+          ? "red"
+          : priority === "medium"
+          ? "yellow"
+          : priority === "low"
+          ? "green"
+          : "transparent"};
     transform: rotate(315deg);
   }
   &:hover {
@@ -150,5 +162,4 @@ export const ColumnItemInfo = styled.div`
     cursor: pointer;
     opacity: 0;
   }
- 
 `;

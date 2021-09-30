@@ -106,6 +106,11 @@ export const WorkspaceTitle = styled.span`
   font-size: 20px;
   line-height: 26px;
   text-transform: uppercase;
+  max-width: 280px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden; 
+
   &:last-child {
     color: #a0a0a0;
   }

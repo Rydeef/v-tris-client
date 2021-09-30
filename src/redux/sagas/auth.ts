@@ -5,11 +5,10 @@ import {
   ILoginUserAction,
   ISendResetLetterAction,
   AuthActionTypes,
+  IResetPasswordAction
 } from "../types/auth";
 import { api } from "../../services/api";
-import { setMessage } from '../actions/auth';
-import { IResetPasswordAction } from '../types/auth';
-
+import { setMessage, setAccessToken } from "../actions/auth";
 
 function* registerUser(data: IRegisterAction): Generator {
   try {
@@ -47,8 +46,12 @@ function* confirmUser(data: IConfirmUserAction): Generator {
 }
 function* loginUser(data: ILoginUserAction): Generator {
   try {
+    console.log(123);
+    
     const response: any = yield call(api.post, "/auth/login", data.payload);
+    
     if (response.status === 200) {
+      yield put(setAccessToken(response.data.token));
       window.localStorage.setItem("vTrisAccessToken", response.data.token);
       window.location.assign("/");
     } else yield put(setMessage(response.data.message));
@@ -81,7 +84,11 @@ function* sendResetLtter(data: ISendResetLetterAction): Generator {
 
 function* resetPassword(data: IResetPasswordAction): Generator {
   try {
-    const response: any = yield call(api.post, "/auth/reset/password", data.payload);
+    const response: any = yield call(
+      api.post,
+      "/auth/reset/password",
+      data.payload
+    );
 
     yield put(setMessage(response.data.message));
   } catch (err: any) {
@@ -100,7 +107,7 @@ function* auth(): Generator {
   yield takeLatest(AuthActionTypes.CONFIRM_USER, confirmUser);
   yield takeLatest(AuthActionTypes.LOGIN_USER, loginUser);
   yield takeLatest(AuthActionTypes.SEND_RESET_LETTER, sendResetLtter);
-  yield takeLatest(AuthActionTypes.RESET_PASSWORD, resetPassword)
+  yield takeLatest(AuthActionTypes.RESET_PASSWORD, resetPassword);
 }
 
 export default auth;

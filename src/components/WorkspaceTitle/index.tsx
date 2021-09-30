@@ -5,7 +5,6 @@ import {
   FilterIco,
   FilterContainer,
   Filter,
-  FilterCalendar,
 } from "./styles";
 import { FilterButton } from "../../styles/buttons";
 import filterImg from "../../assets/svg/filter.svg";
@@ -18,17 +17,12 @@ import "react-datepicker/dist/react-datepicker.css";
 export const WorkspaceTitle: React.FC = () => {
   const [opened, setOpened] = useState(false);
   const [calendarValue, setCalendarValue] = useState(new Date());
-  const [openedCalendar, setOpenedCalendar] = useState(false);
 
   const handleFilter = () => {
     setOpened(!opened);
   };
-  const handleCalendar = () => {
-    setOpenedCalendar(!openedCalendar);
-  };
   const calendarOnChange = (values: any) => {
     setCalendarValue(values);
-    setOpenedCalendar(!openedCalendar);
   };
   useEffect(() => {
     console.log(calendarValue);
