@@ -34,7 +34,7 @@ export const LoginForm: React.FC = () => {
         render={({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
             {fields.map((field) => (
-              <FieldBox>
+              <FieldBox key={field.name}>
                 <IconBox>{<field.icon fontSize="large" />}</IconBox>
                 <Field
                   name={field.name}

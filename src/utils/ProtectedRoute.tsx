@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Redirect } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getUserInfo } from "../redux/actions/user";
 
 interface ProtectedRouteProps {
   children: JSX.Element;
@@ -10,6 +12,12 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   children,
   ...rest
 }) => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUserInfo());
+  }, [dispatch]);
+
   return (
     <Route
       {...rest}

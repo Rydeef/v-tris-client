@@ -2,14 +2,12 @@ import styled from "styled-components";
 import { colors } from "../../theme/colors";
 import ScrollContainer from "react-indiana-drag-scroll";
 
-type priorityType = "high" | "medium" | "low";
-
 interface ColumnTitleProps {
   outline?: string;
 }
 
 interface ColumnItemProps {
-  priority: priorityType;
+  priority: string;
 }
 export const ColumnsWrapper = styled(ScrollContainer)`
   display: flex;

@@ -14,15 +14,19 @@ import { fields } from "./fields";
 import { resetPassword } from "../../redux/actions/auth";
 import { validatePasswords } from "../../validate/validateAuth";
 import { StyledLink } from "../../styles/utils";
+import { useParams } from "react-router";
+
+interface IParams {
+  hash: string;
+}
 
 export const ResetPasswordForm: React.FC = () => {
   const dispatch = useDispatch();
   const message = useSelector(({ auth }: any) => auth.message) || "";
-  const hash = window.location.pathname.split("/");
+  const { hash }: IParams = useParams();
 
   const onSubmit = (values: any) => {
-    dispatch(resetPassword({ ...values, token: hash[hash.length - 1] }));
-    console.log(values);
+    dispatch(resetPassword({ ...values, token: hash }));
   };
   return (
     <LoginBox>
@@ -33,7 +37,7 @@ export const ResetPasswordForm: React.FC = () => {
         render={({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
             {fields.map((field) => (
-              <FieldBox>
+              <FieldBox key={field.name}>
                 <IconBox>{<field.icon fontSize="large" />}</IconBox>
                 <Field
                   name={field.name}

@@ -6,14 +6,21 @@ import { Message, MessageBox, FormButtons } from "./styles";
 
 import { AuthMain } from "../../styles/buttons";
 import { StyledLink } from "../../styles/utils";
+import { useParams } from "react-router";
+
+interface IParams {
+  hash: string;
+}
 
 export const InfoPage: React.FC = () => {
   const dispatch = useDispatch();
   const message =
     useSelector(({ auth }: any) => auth.message) || "Invalid token";
-  const hash = window.location.pathname.split("/");
+
+  const { hash }: IParams = useParams();
+
   useEffect(() => {
-    dispatch(confirmUser(hash[hash.length - 1]));
+    dispatch(confirmUser(hash));
   }, [dispatch, hash]);
 
   return (

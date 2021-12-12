@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
 import auth from "./auth";
 import user from "./user";
+import columns from "./columns";
 import storage from "redux-persist/lib/storage";
 import { persistReducer } from "redux-persist";
 
@@ -9,10 +10,9 @@ const rootPersistConfig = {
   storage: storage,
 };
 
-
 const rootReducer = persistReducer(
   rootPersistConfig,
-  combineReducers({ auth, user })
+  combineReducers({ auth, user, columns })
 );
 
 export default rootReducer;

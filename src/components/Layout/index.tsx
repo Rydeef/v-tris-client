@@ -34,10 +34,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
     window.localStorage.getItem("vTrisTheme") === "dark" ? "dark" : "light"
   );
   const handleBurger = (e: React.MouseEvent<HTMLElement>) => {
-    // if (!isBurger) {
     setBurger(!isBurger);
-    // }
-    console.log(123);
   };
   return (
     <ThemeProvider theme={themes[theme]}>
@@ -73,7 +70,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
           </ContentContainer>
         </Header>
 
-          <ChildrenContainer>{children}</ChildrenContainer>
+        <ChildrenContainer>{children}</ChildrenContainer>
       </LayoutContainer>
     </ThemeProvider>
   );

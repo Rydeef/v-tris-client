@@ -23,7 +23,6 @@ export const RegisterForm: React.FC = () => {
   const message = useSelector(({ auth }: any) => auth.message) || "";
   const onSubmit = (values: IUser) => {
     dispatch(registerUser(values));
-    console.log(values);
   };
   return (
     <LoginBox>
@@ -46,7 +45,7 @@ export const RegisterForm: React.FC = () => {
             render={({ handleSubmit }) => (
               <form onSubmit={handleSubmit}>
                 {fields.map((field) => (
-                  <FieldBox>
+                  <FieldBox key={field.name}>
                     <IconBox>{<field.icon fontSize="large" />}</IconBox>
                     <Field
                       name={field.name}

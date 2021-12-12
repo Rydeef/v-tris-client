@@ -9,13 +9,15 @@ import {
 } from "./styles";
 import { Field, Form } from "react-final-form";
 import TicketField from "../TicketField";
-import userLinkingIcon from "../../assets/svg/userLinking.svg";
 import dateFromIcon from "../../assets/svg/dateFrom.svg";
 import dateToIcon from "../../assets/svg/dateTo.svg";
 import priorityIcon from "../../assets/svg/priority.svg";
 import closeIcon from "../../assets/svg/close.svg";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { ICreateTicket } from "../../redux/types/columns";
+import { useDispatch } from "react-redux";
+import { createTicket } from "../../redux/actions/columns";
 
 interface NewTicketProps {
   column: string;
@@ -25,24 +27,13 @@ export const NewTicket: React.FC<NewTicketProps> = ({
   column,
   handleClose,
 }) => {
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
-  const changeEndDate = (date: any) => {
-    setEndDate(date);
-  };
-  const changeStartDate = (date: any) => {
-    setStartDate(date);
-  };
-  useEffect(() => {
-    console.log(startDate, endDate);
-  }, [startDate, endDate]);
+  const dispatch = useDispatch();
   const onSubmit = (values: any) => {
-    const reqObj = {
-      name: values.ticketName,
-      startDate,
-      endDate,
+    const reqObj: ICreateTicket = {
+      title: values.ticketName,
+      columnId: column,
     };
-    console.log(reqObj);
+    dispatch(createTicket(reqObj));
   };
   return (
     <NewTicketBox>
@@ -59,36 +50,9 @@ export const NewTicket: React.FC<NewTicketProps> = ({
                   placeholder="Task name"
                   component={TicketField}
                 />
-                <TicketIcon src={userLinkingIcon} alt="" />
               </InputContainer>
               <InputContainer>
                 <TicketButtons>
-                  <DatePicker
-                    selected={startDate}
-                    onChange={changeStartDate}
-                    customInput={<img src={dateFromIcon} alt="" />}
-                    withPortal
-                    showTimeSelect
-                    selectsStart
-                    dateFormat="MMMM d, yyyy h:mm aa"
-                    shouldCloseOnSelect={false}
-                    timeFormat="HH:mm"
-                    calendarClassName="calendar-fields"
-                  />
-
-                  <DatePicker
-                    selected={endDate}
-                    onChange={changeEndDate}
-                    customInput={<img src={dateToIcon} alt="" />}
-                    withPortal
-                    showTimeSelect
-                    selectsEnd
-                    dateFormat="MMMM d, yyyy h:mm aa"
-                    shouldCloseOnSelect={false}
-                    timeFormat="HH:mm"
-                    calendarClassName="calendar-fields"
-                  />
-
                   <TicketIcon src={priorityIcon} alt="" />
                 </TicketButtons>
                 <SubmitTicket type="submit">Save</SubmitTicket>
